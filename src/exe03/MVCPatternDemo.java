@@ -9,13 +9,21 @@ public class MVCPatternDemo {
 		// Create a view : to write student details on console
 		StudentView view = new StudentView();
 
-		StudentController controller = new StudentController(model, view);
+		Controller controller = (StudentController) ControllerFactory.buildController(ControllerType.STUDENT, model, view);
 
 		controller.updateView();
 
 		// update model data
-		controller.setStudentName("John");
+		controller.setUserName("John");
 
+		controller.updateView();
+		
+		//Repetindo os mesmos testes para o caso de um professor
+		Professor prof = retriveProfessorFromDatabase();
+		UserView profView = new ProfessorView();
+		controller = (ProfessorController) ControllerFactory.buildController(ControllerType.PROFESSOR, prof, profView);
+		controller.updateView();
+		controller.setUserName("Rafael");
 		controller.updateView();
 	}
 
@@ -24,6 +32,13 @@ public class MVCPatternDemo {
 		student.setName("Robert");
 		student.setRollNo("10");
 		return student;
+	}
+	
+	private static Professor retriveProfessorFromDatabase() {
+		Professor professor = new Professor();
+		professor.setName("Gabriel");
+		professor.setRollNo("99");
+		return professor;
 	}
 
 }
